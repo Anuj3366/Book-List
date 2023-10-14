@@ -1,12 +1,20 @@
-import style from "./style.module.css"
+import style from "./style.module.css";
 
-function UInput({name,id,label,placeholder,type}) {
-    return (
-        <>
-            <label htmlFor={id} style={{ margin: "20px" }} className={style["label"]}>{label}</label>
-            <input type={type} id={id} name={name} placeholder={placeholder} style={{ margin: "20px" }}></input>
-        </>
-    );
+function UInput({ id, label, placeholder, type, defaultValue }) {
+  return (
+    <>
+      <label htmlFor={id} className={style["label"]}>
+        {label}
+      </label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        id={id}
+        name={id}
+        defaultValue={defaultValue}
+      ></input>
+    </>
+  );
 }
 
 export default UInput;

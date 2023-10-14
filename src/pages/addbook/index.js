@@ -1,45 +1,74 @@
 import UAlert from "@/common/components/alert";
 import UInput from "@/common/components/uInput";
+import UButton from "@/common/components/ubutton";
 import { useState } from "react";
-function Addbook() {
-    const [showAlert, setShowAlert] = useState(false);
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const newBook = {
-            name: event.target.name.value,
-            author: event.target.name.value,
-            title: event.target.name.value,
-        };
-        fetch("http://localhost:3001/books", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newBook),
-        }).then(
-            (response) => {
-                if (response.status === 201) {
-                    setShowAlert(true);
-                }
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+
+function AddBook() {
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newbook = {
+      name: event.currentTarget.name.value,
+      author: event.currentTarget.author.value,
+      title: event.currentTarget.title.value,
     };
-    const closeAlert = () => {
-        setShowAlert(false);
-    };
-    return (
-        <>
-            <UAlert message="Book Added Successfully" show={showAlert} closeAlert={closeAlert}></UAlert>
-            <form onSubmit={handleSubmit}>
-                <UInput id="Book" placeholder="Book Name" label="Book Name" type="text" name="Book"></UInput>
-                <UInput id="Author" name="author" placeholder="Author Name" label="Author Name" type="text"></UInput>
-                <UInput id="Title" name="title" placeholder="Book Title" label="Book Title" type="text"></UInput>
-                <button type="submit" onClick={handleSubmit}>Submit</button>
-            </form>
-        </>
-    )
+    fetch("http://localhost:3001/books", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newbook),
+    }).then(
+      (response) => {
+        debugger;
+        if (response.ok) {
+          setShowAlert(true);
+        }
+      },
+      (error) => { }
+    );
+    debugger;
+  };
+
+  const toggleAlert = (value) => {
+    setShowAlert(value);
+  };
+
+  return (
+    <>
+      <UAlert
+        message="Book added successfully"
+        show={showAlert}
+        toggleAlert={toggleAlert}
+      />
+      <form onSubmit={handleSubmit}>
+        <UInput
+          id="name"
+          placeholder="Enter Book Name"
+          label="Book Name"
+          type="text"
+        />
+        <UInput
+          id="author"
+          placeholder="Enter Author Name"
+          label="Author Name"
+          type="text"
+        />
+        <UInput
+          id="title"
+          placeholder="Enter Book Title"
+          label="Book Title"
+          type="text"
+        />
+        <div style={{ textAlign: "center", margin: "20px 0" }}>
+          <UButton type="submit" variant="primary">
+            Submit
+          </UButton>
+        </div>
+      </form>
+    </>
+  );
 }
-export default Addbook;
+
+export default AddBook;
