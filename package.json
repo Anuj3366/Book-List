@@ -1,13 +1,13 @@
 {
+  "homepage": "https://Anuj3366.github.io/Book-List",
   "name": "my-app",
   "version": "0.1.0",
-  "homepage": "https://Anuj3366.github.io/Book-List",
   "private": true,
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d out -m 'Deploy React app to GitHub Pages'",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
   },
