@@ -1,8 +1,9 @@
 import "./../../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
-import useEffect from "react";
+import React, { useEffect } from 'react';
 
-function UAlert({ message, show, closeAlert }) {
+
+function UAlert({ message, show, toggleAlert }) {
     useEffect(() => {
         if (show) {
             setTimeout(() => {
@@ -18,7 +19,10 @@ function UAlert({ message, show, closeAlert }) {
                         <img src="..." class="rounded mr-2" alt="..." />
                         <strong class="mr-auto">{message}</strong>
                         <small></small>
-                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onClick={() => closeAlert(false)}>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"
+                            onClick={() => {
+                                toggleAlert(false);
+                            }}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
