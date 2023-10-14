@@ -1,46 +1,56 @@
-import UButton from "../button";
+import UButton from "@/common/components/ubutton";
 import style from "./style.module.css";
-import Link from "next/link";
 
-/*import {useRouter} from "next/router";
-  const router = useRouter(); //(its use to push to that page , use it by adding onclick and all) 
-  router.push("/addbook");*/
+function DataTable({ data, maxSize, editAction }) {
+  console.log("The data to be used is: ", data);
+  console.log("The max size to be used is: ", maxSize);
 
-function DataTable({data, maxSize,onEdit}) {
-    console.log("The books are to use in DataTable component", data);
-    console.log("The max size to be used is", maxSize);
-
-    const getRowsData = () => {
-        return data.map((row, index) => {
-            return <tr key = {index}  className={style["tr"]}>
-                <td className={style["td"]}>{index + 1}</td>
-                <td className={style["td"]}>{row.name}</td>
-                <td className={style["td"]}>{row.author}</td>
-                <td className={style["td"]}>{row.title}</td>
-                <td className={style["td"]}>
-                    <Link className="btn btn-primary" href="/addbook">Add Book</Link>
-                    <UButton type="secondary" onclick={onEdit}>Edit</UButton>
-                </td>
-            </tr>
-        }
-        )
-    };
-    return (
-        <table className={style["tabel"]}>
-            <thead className={style["thead"]}>
-                <tr className={style["tr"]}>
-                    <th className={style["th"]}>Sr . No.</th>
-                    <th className={style["th"]}>Name</th>
-                    <th className={style["th"]}>Author</th>
-                    <th className={style["th"]}>Title</th>
-                    <th className={style["th"]}>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {getRowsData()}
-            </tbody>
-        </table>
-    )
+  const getRowsData = () => {
+    return data.map((item, index) => {
+      return (
+        <tr key={index}>
+          <td className={style["border"]}>{index + 1}</td>
+          <td className={style["border"]}>{item.name}</td>
+          <td className={style["border"]}>{item.author}</td>
+          <td className={style["border"]}>{item.title}</td>
+          <td className={style["border"]}>
+            <UButton
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                editAction(item);
+              }}
+            >
+              Edit
+            </UButton>
+            <UButton
+              type="button"
+              variant="warning"
+              onClick={() => {
+                deleteAction(item);
+              }}
+            >
+              Delete
+            </UButton>
+          </td>
+        </tr>
+      );
+    });
+  };
+  return (
+    <table className={style["table"]}>
+      <thead>
+        <tr>
+          <th className={style["border"]}>Sr. No.</th>
+          <th className={style["border"]}>Name</th>
+          <th className={style["border"]}>Author</th>
+          <th className={style["border"]}>Title</th>
+          <th className={style["border"]}>Actions</th>
+        </tr>
+      </thead>
+      <tbody>{getRowsData()}</tbody>
+    </table>
+  );
 }
 
 export default DataTable;
