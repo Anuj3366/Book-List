@@ -8,7 +8,7 @@ function UAlert({ message, show, toggleAlert }) {
         toggleAlert(false);
       }, 4000);
     }
-  }, [show]);
+  }, [show, toggleAlert]);
 
   return (
     <>
