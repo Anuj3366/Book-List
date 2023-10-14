@@ -1,82 +1,52 @@
-import DataTable from "@/common/components/dataTables";
-import { useState ,useEffect} from "react";
+import DataTable from "@/common/components/dataTable";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
+function HomePage() {
+  const [books, setBooks] = useState([]);
+  const router = useRouter();
+  // let name = "Anuj";
+  // const books = [
+  //   { name: "Book1Name", author: "Book1Author", title: "UCA Web Technologies" },
+  //   { name: "Book2Name", author: "Book2Author", title: "UCA Web Technologies" },
+  //   { name: "Book3Name", author: "Book3Author", title: "UCA Web Technologies" },
+  // ];
 
-// import dynamic from 'next/dynamic'
- 
-// const ClientComponent = dynamic(() =>
-//   import('../components/hello').then((mod) => mod.Hello) // replace '../components/hello' with your component's location
-// )
-
-
-function HomePage(props) {
-
-  
-  // const books = [{ name: "Book1Name", author: "Book1Author", title: "UCA Web", action: "Edit" },
-  // { name: "Book2Name", author: "Book2Author", title: "UCA Web", action: "All" },
-  // { name: "Book3Name", author: "Book3Author", title: "UCA Web", action: "View" }];
-  
-  // let promise1 = /*await*/ new Promise((resolve, reject) => {
-  //   setTimeout(() => resolve("done!"), 4000);
-  // });
-  // promise1.then((value) => {
-  //   (value) => console.log(value + "value"),
-  //   (error) => console.log(error + "error");
-
-  // })
-
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const newBook = {
-        name: event.target.name.value,
-        author: event.target.author.value,
-        title: event.target.title.value,
-    };
-    fetch("http://localhost:3001/books", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newBook),
-    }).then(
-        (response) => {
-            if (response.status === 201) {
-                setShowAlert(true);
-            }
-        },
-        (error) => {
-            console.log(error);
-        }
-    );
-};
-  let [books,setBooks] = useState([]);
   useEffect(() => {
     fetchData();
-  },[]);
-  const fetchData = () => fetch(" http://localhost:3001/books")
-  .then((response) => {
-    return response.json();
-  }).then((data) => {
-    setBooks(data);
-    books = data;
-    console.log("The data is", data);
-  });
+  }, []);
 
-  const editAction = (event) => {
-    console.log("The event is", event);
-  }
+  const fetchData = () => {
+    fetch("http://localhost:3001/books").then(
+      async (response) => {
+        try {
+          let booksData = await response.json();
+          setBooks(booksData);
+        } catch (error) {}
+      },
+      (error) => {
+        alert("Some error occured while fetching data");
+      }
+    );
+  };
+
+  const editAction = (selectedBook) => {
+    console.log("The selected data is : ", selectedBook);
+    router.push({ pathname: "/editbook", query: selectedBook }, "/editbook");
+    // router.push("/editbook");
+  };
 
   return (
-    <div>
-      <div className="container">
-        <p>Welcome to Library</p>
-        <DataTable data={books} onEdit={editAction} maxSize={10}></DataTable>
-      </div>
+    <div className="container">
+      <DataTable
+        data={books}
+        maxSize={10}
+        editAction={editAction}
+        // onAddBook={addbookHandler}
+      ></DataTable>
+      <div style={{ margin: "20px", paddingLeft: "300px" }}></div>
     </div>
-  )
+  );
 }
 
 export default HomePage;
-
