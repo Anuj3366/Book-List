@@ -17,15 +17,13 @@ function HomePage() {
   }, []);
 
   const fetchData = () => {
-    fetch("http://localhost:3001/books").then(
+    fetch("http://localhost:3001/books")?.then(
       async (response) => {
         try {
-          let booksData = await response.json();
+          let booksData = await response?.json();
           setBooks(booksData);
-        } catch (error) {}
-      },
-      (error) => {
-        alert("Some error occured while fetching data");
+        }
+        catch (error) { console.log("***ERROR***", error) }
       }
     );
   };
@@ -33,8 +31,17 @@ function HomePage() {
   const editAction = (selectedBook) => {
     console.log("The selected data is : ", selectedBook);
     router.push({ pathname: "/editbook", query: selectedBook }, "/editbook");
-    // router.push("/editbook");
   };
+
+  const deleteAction = (selectedBook) => {
+    console.log("The selected data to delete is : ", selectedBook);
+    fetch("http://localhost:3001/books/" + selectedBook.id, {
+      method: "DELETE",
+    }).then(async (response) => {
+      console.log("The response is : ", response);
+      fetchData();
+    });
+  }
 
   return (
     <div className="container">
@@ -42,7 +49,7 @@ function HomePage() {
         data={books}
         maxSize={10}
         editAction={editAction}
-        // onAddBook={addbookHandler}
+        deleteAction={deleteAction}
       ></DataTable>
       <div style={{ margin: "20px", paddingLeft: "300px" }}></div>
     </div>

@@ -18,7 +18,7 @@ function EditBook() {
       title: event.currentTarget.title.value,
     };
 
-    const selectedBookId = router.query.id; // Extract the id from the query
+    const selectedBookId = router.query.id;
     console.log("The updated book id is: ", selectedBookId);
     fetch(`http://localhost:3001/books/${selectedBook.id}`, {
       method: "PUT",

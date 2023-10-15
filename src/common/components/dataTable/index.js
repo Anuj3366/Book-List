@@ -1,9 +1,9 @@
 import UButton from "@/common/components/ubutton";
 import style from "./style.module.css";
 
-function DataTable({ data, maxSize, editAction }) {
-  console.log("The data to be used is: ", data);
-  console.log("The max size to be used is: ", maxSize);
+function DataTable({ data, maxSize, editAction ,deleteAction}) {
+  // console.log("The data to be used is: ", data);
+  // console.log("The max size to be used is: ", maxSize);
 
   const getRowsData = () => {
     return data.map((item, index) => {
